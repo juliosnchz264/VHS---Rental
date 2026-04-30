@@ -495,7 +495,6 @@ INSERT INTO `socio` VALUES
 (3,'Laura Fernández Soto','688555666','C/ Sindicat 8, Palma'),
 (4,'Carlos Rodríguez Vidal','699777888','Pg. del Born 22, Palma'),
 (5,'Ana Sánchez Pons','655999000','C/ Sant Miquel 5, Palma'),
-(6,'Julio','691149988','Calle Rafael Rodriguez Mendez'),
 (7,'Frank Reyes','682112843','Calle Aragon'),
 (8,'Eduardo Sanchez','666111999','C/ Tomas Forteza, 11'),
 (9,'Marco Sanchez','666111999','C/ Manacor, 13');
