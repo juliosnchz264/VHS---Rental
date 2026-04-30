@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Definir preferencias{% endblock %}
+
+{% block content %}
+<h1 class="page-title">PREFERENCIAS</h1>
+<p class="page-subtitle">D) Definir gustos: género, actor o director favorito</p>
+
+<div class="card">
+    <h2 class="card-title">+ AÑADIR PREFERENCIA</h2>
+    <form method="POST" id="prefForm">
+        <div class="form-group">
+            <label class="form-label">Socio</label>
+            <select name="id_socio" class="form-select" required>
+                <option value="">— Selecciona socio —</option>
+                {% for s in socios %}
+                    <option value="{{ s.id_socio }}" {% if socio_seleccionado and s.id_socio|string == socio_seleccionado %}selected{% endif %}>
+                        #{{ '%03d' % s.id_socio }} · {{ s.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Tipo de preferencia</label>
+            <select name="tipo" id="tipo" class="form-select" required onchange="cambiarTipo()">
+                <option value="">— Elige tipo —</option>
+                <option value="genero">Género</option>
+                <option value="actor">Actor</option>
+                <option value="director">Director</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="grupo_genero" style="display: none;">
+            <label class="form-label">Género</label>
+            <select name="id_item_genero" class="form-select">
+                <option value="">— Selecciona —</option>
+                {% for g in generos %}
+                    <option value="{{ g.id_genero }}">{{ g.tipo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group" id="grupo_actor" style="display: none;">
+            <label class="form-label">Actor</label>
+            <select name="id_item_actor" class="form-select">
+                <option value="">— Selecciona —</option>
+                {% for a in actores %}
+                    <option value="{{ a.id_actor }}">{{ a.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group" id="grupo_director" style="display: none;">
+            <label class="form-label">Director</label>
+            <select name="id_item_director" class="form-select">
+                <option value="">— Selecciona —</option>
+                {% for d in directores %}
+                    <option value="{{ d.id_director }}">{{ d.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <input type="hidden" name="id_item" id="id_item">
+
+        <button type="submit" class="btn btn-cyan" onclick="prepararEnvio()">▶ Añadir preferencia</button>
+        {% if socio_seleccionado %}
+        <a href="{{ url_for('ver_preferencias', id_socio=socio_seleccionado) }}" class="btn btn-yellow">VER FICHA</a>
+        {% endif %}
+    </form>
+</div>
+
+<script>
+function cambiarTipo() {
+    const tipo = document.getElementById('tipo').value;
+    document.getElementById('grupo_genero').style.display = tipo === 'genero' ? 'block' : 'none';
+    document.getElementById('grupo_actor').style.display = tipo === 'actor' ? 'block' : 'none';
+    document.getElementById('grupo_director').style.display = tipo === 'director' ? 'block' : 'none';
+}
+
+function prepararEnvio() {
+    const tipo = document.getElementById('tipo').value;
+    const valor = document.querySelector(`[name="id_item_${tipo}"]`)?.value || '';
+    document.getElementById('id_item').value = valor;
+}
+</script>
+{% endblock %}

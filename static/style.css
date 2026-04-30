@@ -1,0 +1,740 @@
+/* ============================================
+   VHS RENTAL - Estética retro años 80
+   ============================================ */
+
+   :root {
+    --bg-deep: #0a0612;
+    --bg-mid: #150b24;
+    --bg-card: #1c0f30;
+    --neon-magenta: #ff2e93;
+    --neon-cyan: #00f0ff;
+    --neon-yellow: #fff200;
+    --neon-purple: #b537f2;
+    --text-cream: #f5e6d3;
+    --text-dim: #9b8aa6;
+    --border-glow: rgba(255, 46, 147, 0.4);
+    --shadow-magenta: 0 0 20px rgba(255, 46, 147, 0.5);
+    --shadow-cyan: 0 0 20px rgba(0, 240, 255, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    background: var(--bg-deep);
+    color: var(--text-cream);
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+        radial-gradient(ellipse at top left, rgba(181, 55, 242, 0.15), transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(0, 240, 255, 0.12), transparent 50%),
+        linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-mid) 100%);
+    background-attachment: fixed;
+}
+
+/* Efecto de grano y scanlines */
+.grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.scanlines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.15) 2px,
+        rgba(0, 0, 0, 0.15) 4px
+    );
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.header {
+    border-bottom: 2px solid var(--neon-magenta);
+    background: rgba(10, 6, 18, 0.85);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(255, 46, 147, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.logo {
+    font-family: 'Major Mono Display', monospace;
+    font-size: 1.6rem;
+    color: var(--neon-magenta);
+    text-decoration: none;
+    text-shadow:
+        0 0 10px var(--neon-magenta),
+        0 0 20px rgba(255, 46, 147, 0.6),
+        0 0 40px rgba(255, 46, 147, 0.4);
+    letter-spacing: 0.1em;
+    transition: all 0.3s;
+}
+
+.logo:hover {
+    color: var(--neon-cyan);
+    text-shadow:
+        0 0 10px var(--neon-cyan),
+        0 0 20px rgba(0, 240, 255, 0.6);
+}
+
+.logo-bracket {
+    color: var(--neon-yellow);
+    text-shadow: 0 0 10px var(--neon-yellow);
+}
+
+.nav {
+    display: flex;
+    gap: 1.8rem;
+    flex-wrap: wrap;
+}
+
+.nav a {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--text-cream);
+    text-decoration: none;
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    padding: 0.5rem 0.8rem;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.nav a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--neon-cyan);
+    transition: all 0.3s;
+    transform: translateX(-50%);
+    box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.nav a:hover, .nav a.active {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 8px var(--neon-cyan);
+}
+
+.nav a:hover::before, .nav a.active::before {
+    width: 100%;
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+.page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--neon-cyan);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+    text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+.page-subtitle {
+    font-family: 'Special Elite', monospace;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.1em;
+}
+
+.page-subtitle::before {
+    content: '> ';
+    color: var(--neon-magenta);
+}
+
+/* ============================================
+   FLASH MESSAGES
+   ============================================ */
+.flash-container {
+    margin-bottom: 2rem;
+}
+
+.flash {
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.5rem;
+    border-left: 4px solid;
+    background: rgba(28, 15, 48, 0.7);
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.flash-success {
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
+    box-shadow: -4px 0 20px rgba(0, 240, 255, 0.3);
+}
+
+.flash-error {
+    border-color: var(--neon-magenta);
+    color: var(--neon-magenta);
+    box-shadow: -4px 0 20px rgba(255, 46, 147, 0.3);
+}
+
+.flash-icon {
+    font-size: 1.4rem;
+}
+
+/* ============================================
+   CARDS Y CONTENEDORES
+   ============================================ */
+.card {
+    background: linear-gradient(135deg, rgba(28, 15, 48, 0.8), rgba(10, 6, 18, 0.6));
+    border: 1px solid var(--border-glow);
+    border-radius: 4px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    backdrop-filter: blur(4px);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--neon-magenta), var(--neon-cyan), var(--neon-yellow));
+}
+
+.card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    color: var(--neon-yellow);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px rgba(255, 242, 0, 0.4);
+}
+
+.layout-2col {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+}
+
+@media (max-width: 900px) {
+    .layout-2col { grid-template-columns: 1fr; }
+}
+
+/* ============================================
+   FORMULARIOS
+   ============================================ */
+.form-group {
+    margin-bottom: 1.3rem;
+}
+
+.form-label {
+    display: block;
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--neon-cyan);
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.4rem;
+}
+
+.form-label::before {
+    content: '▸ ';
+    color: var(--neon-magenta);
+}
+
+.form-input, .form-select, .form-textarea {
+    width: 100%;
+    background: rgba(10, 6, 18, 0.7);
+    border: 1px solid rgba(155, 138, 166, 0.3);
+    color: var(--text-cream);
+    padding: 0.7rem 1rem;
+    font-family: 'VT323', monospace;
+    font-size: 1.15rem;
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+.form-select option {
+    background: #150b24;
+    color: var(--text-cream);
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 0 1px var(--neon-cyan), 0 0 15px rgba(0, 240, 255, 0.3);
+    background: rgba(0, 240, 255, 0.03);
+}
+
+.form-input::placeholder {
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+.form-help {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+    font-style: italic;
+}
+
+/* Botones */
+.btn {
+    display: inline-block;
+    background: transparent;
+    color: var(--neon-magenta);
+    border: 2px solid var(--neon-magenta);
+    padding: 0.7rem 1.6rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--neon-magenta);
+    transform: translateY(100%);
+    transition: transform 0.25s;
+    z-index: -1;
+}
+
+.btn:hover {
+    color: var(--bg-deep);
+    box-shadow: 0 0 20px var(--neon-magenta);
+}
+
+.btn:hover::before {
+    transform: translateY(0);
+}
+
+.btn-cyan {
+    color: var(--neon-cyan);
+    border-color: var(--neon-cyan);
+}
+.btn-cyan::before { background: var(--neon-cyan); }
+.btn-cyan:hover { box-shadow: 0 0 20px var(--neon-cyan); }
+
+.btn-yellow {
+    color: var(--neon-yellow);
+    border-color: var(--neon-yellow);
+}
+.btn-yellow::before { background: var(--neon-yellow); }
+.btn-yellow:hover { box-shadow: 0 0 20px var(--neon-yellow); }
+
+.btn-sm {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Checkbox custom */
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.6rem 0;
+    cursor: pointer;
+}
+
+.checkbox-row input[type="checkbox"] {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--neon-cyan);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.checkbox-row input[type="checkbox"]:checked {
+    background: var(--neon-cyan);
+    box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.checkbox-row input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--bg-deep);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.checkbox-row label {
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+/* ============================================
+   TABLAS
+   ============================================ */
+.table-wrap {
+    overflow-x: auto;
+    border: 1px solid rgba(255, 46, 147, 0.2);
+    border-radius: 2px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+}
+
+thead {
+    background: linear-gradient(90deg, rgba(255, 46, 147, 0.15), rgba(0, 240, 255, 0.1));
+}
+
+th {
+    text-align: left;
+    padding: 0.9rem 1rem;
+    color: var(--neon-yellow);
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.15em;
+    font-size: 0.95rem;
+    border-bottom: 2px solid var(--neon-magenta);
+}
+
+td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid rgba(155, 138, 166, 0.15);
+    color: var(--text-cream);
+}
+
+tbody tr:hover {
+    background: rgba(0, 240, 255, 0.05);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-dim);
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+/* ============================================
+   STATS HOME
+   ============================================ */
+.hero {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 2rem 0;
+}
+
+.hero-title {
+    font-family: 'Major Mono Display', monospace;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    color: var(--neon-magenta);
+    text-shadow:
+        0 0 20px var(--neon-magenta),
+        0 0 40px rgba(255, 46, 147, 0.6),
+        4px 4px 0 var(--neon-cyan);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 1rem;
+    animation: flicker 4s infinite;
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    96% { opacity: 1; }
+    97% { opacity: 0.8; }
+    98% { opacity: 1; }
+    99% { opacity: 0.85; }
+}
+
+.hero-tag {
+    font-family: 'Special Elite', monospace;
+    color: var(--neon-yellow);
+    font-size: 1.1rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 0.5rem;
+}
+
+.hero-meta {
+    color: var(--text-dim);
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat {
+    background: linear-gradient(135deg, rgba(28, 15, 48, 0.8), rgba(10, 6, 18, 0.6));
+    border: 1px solid var(--border-glow);
+    padding: 1.8rem 1.5rem;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(255, 46, 147, 0.3);
+}
+
+.stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+}
+
+.stat-label {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--text-cream);
+    letter-spacing: 0.2em;
+    font-size: 0.9rem;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.menu-item {
+    text-decoration: none;
+    background: rgba(28, 15, 48, 0.6);
+    border: 2px solid rgba(155, 138, 166, 0.2);
+    padding: 1.8rem;
+    transition: all 0.3s;
+    position: relative;
+    display: block;
+}
+
+.menu-item:hover {
+    border-color: var(--neon-magenta);
+    box-shadow: 0 0 30px rgba(255, 46, 147, 0.3);
+    transform: translateY(-2px);
+}
+
+.menu-letter {
+    font-family: 'Major Mono Display', monospace;
+    font-size: 2.5rem;
+    color: var(--neon-magenta);
+    text-shadow: 0 0 15px var(--neon-magenta);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.menu-name {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--neon-cyan);
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+}
+
+.menu-desc {
+    color: var(--text-dim);
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+/* ============================================
+   PREFERENCIAS - badges
+   ============================================ */
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1rem;
+}
+
+.badge {
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    padding: 0.3rem 0.9rem;
+    font-family: 'VT323', monospace;
+    font-size: 1.05rem;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+.badge-magenta {
+    background: rgba(255, 46, 147, 0.1);
+    border-color: var(--neon-magenta);
+    color: var(--neon-magenta);
+}
+
+.badge-yellow {
+    background: rgba(255, 242, 0, 0.1);
+    border-color: var(--neon-yellow);
+    color: var(--neon-yellow);
+}
+
+.section-block {
+    margin-bottom: 2rem;
+}
+
+.section-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px dashed var(--text-dim);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+    border-top: 1px solid rgba(255, 46, 147, 0.3);
+    margin-top: 4rem;
+    padding: 1.5rem 0;
+    background: rgba(10, 6, 18, 0.8);
+}
+
+.footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-text {
+    font-family: 'Special Elite', monospace;
+    color: var(--text-dim);
+    letter-spacing: 0.3em;
+    font-size: 0.9rem;
+}
+
+.footer-rec {
+    font-family: 'VT323', monospace;
+    color: var(--neon-magenta);
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0.3; }
+}
+
+/* ============================================
+   FORMULARIOS DE DEVOLUCIÓN
+   ============================================ */
+.return-info {
+    background: rgba(255, 242, 0, 0.05);
+    border: 1px solid rgba(255, 242, 0, 0.3);
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.return-info-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.4rem;
+    font-size: 1.1rem;
+}
+
+.return-info-label {
+    color: var(--text-dim);
+    min-width: 110px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.1em;
+}
+
+.return-info-value {
+    color: var(--neon-yellow);
+}
+
+.actions-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.inline-form {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+.inline-form .form-group {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 0;
+}
+
+.tag-cinta {
+    font-family: 'VT323', monospace;
+    background: rgba(255, 46, 147, 0.15);
+    color: var(--neon-magenta);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    font-size: 1rem;
+}

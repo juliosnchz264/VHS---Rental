@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Préstamos{% endblock %}
+
+{% block content %}
+<h1 class="page-title">PRÉSTAMOS</h1>
+<p class="page-subtitle">C) Gestión de películas: prestar, devolver y registrar gustos</p>
+
+<div class="card">
+    <h2 class="card-title">▶ NUEVO PRÉSTAMO</h2>
+    <form method="POST" action="{{ url_for('prestar') }}">
+        <div class="inline-form">
+            <div class="form-group">
+                <label class="form-label">Socio</label>
+                <select name="id_socio" class="form-select" required>
+                    <option value="">— Selecciona socio —</option>
+                    {% for s in socios %}
+                        <option value="{{ s.id_socio }}">#{{ '%03d' % s.id_socio }} · {{ s.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Película</label>
+                <select name="id_pelicula" class="form-select" required>
+                    <option value="">— Selecciona película —</option>
+                    {% for p in peliculas %}
+                        <option value="{{ p.id_pelicula }}" {% if p.copiasDisp == 0 %}disabled{% endif %}>
+                            {{ p.titulo }} ({{ p.copiasDisp }}/{{ p.numCopia }} disp.)
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-cyan">PRESTAR</button>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <h2 class="card-title">■ PRÉSTAMOS ACTIVOS · {{ activos|length }}</h2>
+    {% if activos %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Fecha</th><th>Socio</th><th>Cinta</th><th>Película</th><th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in activos %}
+                    <tr>
+                        <td>#{{ a.id }}</td>
+                        <td>{{ a.fechaPrestamo }}</td>
+                        <td>{{ a.socio }}</td>
+                        <td><span class="tag-cinta">{{ a.cinta }}</span></td>
+                        <td>{{ a.titulo }}</td>
+                        <td>
+                            <a href="{{ url_for('devolver_form', id_prestamo=a.id) }}" class="btn btn-yellow btn-sm">DEVOLVER</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">— No hay préstamos activos en este momento —</div>
+    {% endif %}
+</div>
+{% endblock %}

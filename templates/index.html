@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-tag">★ ★ ★ NEW RELEASES ★ ★ ★</div>
+    <h1 class="hero-title">VHS·RENTAL</h1>
+    <div class="hero-meta">EST. 1985 · OPEN LATE · WALK-INS WELCOME</div>
+</section>
+
+<div class="stats-grid">
+    <div class="stat">
+        <div class="stat-number">{{ stats.socios }}</div>
+        <div class="stat-label">SOCIOS</div>
+    </div>
+    <div class="stat">
+        <div class="stat-number">{{ stats.peliculas }}</div>
+        <div class="stat-label">PELÍCULAS</div>
+    </div>
+    <div class="stat">
+        <div class="stat-number">{{ stats.cintas }}</div>
+        <div class="stat-label">CINTAS</div>
+    </div>
+    <div class="stat">
+        <div class="stat-number">{{ stats.prestamos }}</div>
+        <div class="stat-label">EN PRÉSTAMO</div>
+    </div>
+</div>
+
+<div class="menu-grid">
+    <a href="{{ url_for('socios') }}" class="menu-item">
+        <div class="menu-letter">A</div>
+        <div class="menu-name">AÑADIR SOCIOS</div>
+        <div class="menu-desc">Registra nuevos miembros del videoclub</div>
+    </a>
+    <a href="{{ url_for('peliculas') }}" class="menu-item">
+        <div class="menu-letter">B</div>
+        <div class="menu-name">AÑADIR PELÍCULAS</div>
+        <div class="menu-desc">Catálogo: título, director, actores y copias</div>
+    </a>
+    <a href="{{ url_for('prestamos') }}" class="menu-item">
+        <div class="menu-letter">C</div>
+        <div class="menu-name">GESTIÓN DE PELÍCULAS</div>
+        <div class="menu-desc">Préstamos, devoluciones y registro de gustos</div>
+    </a>
+    <a href="{{ url_for('preferencias') }}" class="menu-item">
+        <div class="menu-letter">D</div>
+        <div class="menu-name">DEFINIR PREFERENCIAS</div>
+        <div class="menu-desc">Géneros, actores y directores favoritos</div>
+    </a>
+    <a href="{{ url_for('ver_preferencias') }}" class="menu-item">
+        <div class="menu-letter">E</div>
+        <div class="menu-name">VISUALIZAR PREFERENCIAS</div>
+        <div class="menu-desc">Ficha de gustos de cada socio</div>
+    </a>
+</div>
+{% endblock %}

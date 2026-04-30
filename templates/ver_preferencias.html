@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Ver preferencias{% endblock %}
+
+{% block content %}
+<h1 class="page-title">FICHA DE GUSTOS</h1>
+<p class="page-subtitle">E) Visualizar las preferencias de un socio</p>
+
+<div class="card">
+    <h2 class="card-title">▸ SELECCIONAR SOCIO</h2>
+    <form method="GET" action="{{ url_for('ver_preferencias') }}" id="selSocio" onsubmit="event.preventDefault(); irSocio();">
+        <div class="inline-form">
+            <div class="form-group">
+                <label class="form-label">Socio</label>
+                <select id="select_socio" class="form-select">
+                    <option value="">— Elige un socio —</option>
+                    {% for s in socios %}
+                        <option value="{{ s.id_socio }}" {% if socio and s.id_socio == socio.id_socio %}selected{% endif %}>
+                            #{{ '%03d' % s.id_socio }} · {{ s.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-cyan">VER FICHA</button>
+        </div>
+    </form>
+</div>
+
+{% if socio and datos %}
+<div class="card">
+    <h2 class="card-title">▣ {{ socio.nombre|upper }}</h2>
+    <p style="color: var(--text-dim); margin-bottom: 1.5rem; font-style: italic;">
+        Socio #{{ '%03d' % socio.id_socio }} · {{ socio.telefono or 'sin teléfono' }}
+    </p>
+
+    <div class="section-block">
+        <div class="section-heading" style="color: var(--neon-magenta);">★ GÉNEROS FAVORITOS · {{ datos.generos|length }}</div>
+        {% if datos.generos %}
+            <div class="badges">
+                {% for g in datos.generos %}
+                    <span class="badge badge-magenta">{{ g.tipo }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="color: var(--text-dim); font-style: italic;">— Sin géneros marcados —</p>
+        {% endif %}
+    </div>
+
+    <div class="section-block">
+        <div class="section-heading" style="color: var(--neon-cyan);">★ ACTORES FAVORITOS · {{ datos.actores|length }}</div>
+        {% if datos.actores %}
+            <div class="badges">
+                {% for a in datos.actores %}
+                    <span class="badge">{{ a.nombre }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="color: var(--text-dim); font-style: italic;">— Sin actores marcados —</p>
+        {% endif %}
+    </div>
+
+    <div class="section-block">
+        <div class="section-heading" style="color: var(--neon-yellow);">★ DIRECTORES FAVORITOS · {{ datos.directores|length }}</div>
+        {% if datos.directores %}
+            <div class="badges">
+                {% for d in datos.directores %}
+                    <span class="badge badge-yellow">{{ d.nombre }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="color: var(--text-dim); font-style: italic;">— Sin directores marcados —</p>
+        {% endif %}
+    </div>
+
+    <div class="actions-row">
+        <a href="{{ url_for('preferencias', socio=socio.id_socio) }}" class="btn btn-cyan">+ Añadir preferencias</a>
+    </div>
+</div>
+{% endif %}
+
+<script>
+function irSocio() {
+    const id = document.getElementById('select_socio').value;
+    if (id) {
+        window.location.href = "{{ url_for('ver_preferencias') }}/" + id;
+    }
+}
+</script>
+{% endblock %}

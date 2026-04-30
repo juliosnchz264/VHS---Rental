@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Películas{% endblock %}
+
+{% block content %}
+<h1 class="page-title">PELÍCULAS</h1>
+<p class="page-subtitle">B) Añadir películas: título, director, género, actores y cintas</p>
+
+<div class="layout-2col">
+    <div class="card">
+        <h2 class="card-title">+ NUEVA PELÍCULA</h2>
+        <form method="POST">
+            <div class="form-group">
+                <label class="form-label">Título</label>
+                <input type="text" name="titulo" class="form-input" maxlength="100" required placeholder="Ej. Pulp Fiction">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Director</label>
+                <input type="text" name="director" class="form-input" maxlength="100" required placeholder="Nombre del director" list="directores-list">
+                <datalist id="directores-list">
+                    {% for d in directores if directores is defined %}
+                        <option value="{{ d.nombre }}">
+                    {% endfor %}
+                </datalist>
+                <div class="form-help">Si el director no existe, se creará automáticamente</div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Género</label>
+                <select name="id_genero" class="form-select" required>
+                    <option value="">— Selecciona —</option>
+                    {% for g in generos %}
+                        <option value="{{ g.id_genero }}">{{ g.tipo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Número de copias</label>
+                <input type="number" name="num_copias" class="form-input" min="1" max="20" value="1" required>
+                <div class="form-help">Se generará una cinta por cada copia</div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Actores (separados por comas)</label>
+                <textarea name="actores" class="form-textarea" rows="3" placeholder="Uma Thurman, Samuel L. Jackson, John Travolta"></textarea>
+                <div class="form-help">Los actores nuevos se crearán automáticamente</div>
+            </div>
+            <button type="submit" class="btn btn-cyan">▶ Añadir película</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2 class="card-title">≡ CATÁLOGO · {{ peliculas|length }}</h2>
+        {% if peliculas %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th><th>Título</th><th>Género</th><th>Director</th><th>Disp/Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in peliculas %}
+                        <tr>
+                            <td>#{{ '%03d' % p.id_pelicula }}</td>
+                            <td><strong>{{ p.titulo }}</strong></td>
+                            <td><span class="badge">{{ p.genero or '—' }}</span></td>
+                            <td>{{ p.director or '—' }}</td>
+                            <td>
+                                <span class="{% if p.copiasDisp > 0 %}badge{% else %}badge badge-magenta{% endif %}">
+                                    {{ p.copiasDisp }}/{{ p.numCopia }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">— Catálogo vacío —</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

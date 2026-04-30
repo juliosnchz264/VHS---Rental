@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Socios{% endblock %}
+
+{% block content %}
+<h1 class="page-title">SOCIOS</h1>
+<p class="page-subtitle">A) Añadir socios al videoclub</p>
+
+<div class="layout-2col">
+    <div class="card">
+        <h2 class="card-title">+ NUEVO SOCIO</h2>
+        <form method="POST">
+            <div class="form-group">
+                <label class="form-label">Nombre completo</label>
+                <input type="text" name="nombre" class="form-input" maxlength="100" required placeholder="Ej. María García López">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Teléfono</label>
+                <input type="tel" name="telefono" class="form-input" maxlength="10" placeholder="666111222">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Dirección</label>
+                <input type="text" name="direccion" class="form-input" maxlength="100" placeholder="C/ Mayor 12, Palma">
+            </div>
+            <button type="submit" class="btn btn-cyan">▶ Registrar socio</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2 class="card-title">≡ SOCIOS REGISTRADOS · {{ socios|length }}</h2>
+        {% if socios %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for s in socios %}
+                        <tr>
+                            <td>#{{ '%03d' % s.id_socio }}</td>
+                            <td>{{ s.nombre }}</td>
+                            <td>{{ s.telefono or '—' }}</td>
+                            <td>{{ s.direccion or '—' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">— Sin socios registrados —</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

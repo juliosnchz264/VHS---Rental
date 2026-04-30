@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Devolver cinta{% endblock %}
+
+{% block content %}
+<h1 class="page-title">DEVOLVER CINTA</h1>
+<p class="page-subtitle">Marca lo que le ha gustado al socio antes de confirmar</p>
+
+<div class="card">
+    <div class="return-info">
+        <div class="return-info-row">
+            <div class="return-info-label">SOCIO:</div>
+            <div class="return-info-value">{{ prestamo.socio_nombre }}</div>
+        </div>
+        <div class="return-info-row">
+            <div class="return-info-label">PELÍCULA:</div>
+            <div class="return-info-value">{{ prestamo.titulo }}</div>
+        </div>
+        <div class="return-info-row">
+            <div class="return-info-label">CINTA:</div>
+            <div class="return-info-value"><span class="tag-cinta">{{ prestamo.cinta_codigo }}</span></div>
+        </div>
+    </div>
+
+    <form method="POST">
+        <h3 class="section-heading" style="color: var(--neon-cyan);">¿LE HA GUSTADO?</h3>
+        <p style="color: var(--text-dim); margin-bottom: 1rem;">
+            Marca todo lo que el socio ha disfrutado para añadirlo a sus preferencias:
+        </p>
+
+        {% if prestamo.id_genero %}
+        <div class="checkbox-row">
+            <input type="checkbox" name="gusta_genero" id="gusta_genero" value="1">
+            <input type="hidden" name="id_genero" value="{{ prestamo.id_genero }}">
+            <label for="gusta_genero">
+                Le gusta el género <strong style="color: var(--neon-yellow);">{{ prestamo.genero_tipo }}</strong>
+            </label>
+        </div>
+        {% endif %}
+
+        {% if prestamo.id_director %}
+        <div class="checkbox-row">
+            <input type="checkbox" name="gusta_director" id="gusta_director" value="1">
+            <input type="hidden" name="id_director" value="{{ prestamo.id_director }}">
+            <label for="gusta_director">
+                Le gusta el director <strong style="color: var(--neon-yellow);">{{ prestamo.director_nombre }}</strong>
+            </label>
+        </div>
+        {% endif %}
+
+        {% if actores %}
+        <h3 class="section-heading" style="color: var(--neon-cyan); margin-top: 1.5rem;">ACTORES DEL REPARTO</h3>
+        {% for a in actores %}
+        <div class="checkbox-row">
+            <input type="checkbox" name="gusta_actor_{{ a.id_actor }}" id="actor_{{ a.id_actor }}" value="1">
+            <label for="actor_{{ a.id_actor }}">
+                Le gusta <strong style="color: var(--neon-yellow);">{{ a.nombre }}</strong>
+            </label>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="actions-row">
+            <button type="submit" class="btn btn-cyan">▶ Confirmar devolución</button>
+            <a href="{{ url_for('prestamos') }}" class="btn">← Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

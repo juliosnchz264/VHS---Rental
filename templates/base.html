@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Videoclub{% endblock %} · VHS RENTAL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=VT323&family=Bebas+Neue&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="grain"></div>
+    <div class="scanlines"></div>
+
+    <header class="header">
+        <div class="header-inner">
+            <a href="{{ url_for('index') }}" class="logo">
+                <span class="logo-bracket">[</span>
+                <span class="logo-main">VHS·RENTAL</span>
+                <span class="logo-bracket">]</span>
+            </a>
+            <nav class="nav">
+                <a href="{{ url_for('socios') }}" {% if request.endpoint == 'socios' %}class="active"{% endif %}>SOCIOS</a>
+                <a href="{{ url_for('peliculas') }}" {% if request.endpoint == 'peliculas' %}class="active"{% endif %}>PELÍCULAS</a>
+                <a href="{{ url_for('prestamos') }}" {% if 'prestamos' in (request.endpoint or '') or 'devolver' in (request.endpoint or '') %}class="active"{% endif %}>PRÉSTAMOS</a>
+                <a href="{{ url_for('preferencias') }}" {% if request.endpoint == 'preferencias' %}class="active"{% endif %}>PREFERENCIAS</a>
+                <a href="{{ url_for('ver_preferencias') }}" {% if request.endpoint == 'ver_preferencias' %}class="active"{% endif %}>FICHAS</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">
+                            <span class="flash-icon">{% if category == 'success' %}▶{% else %}!{% endif %}</span>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span class="footer-text">PLEASE · BE · KIND · REWIND</span>
+            <span class="footer-rec">● REC</span>
+        </div>
+    </footer>
+</body>
+</html>
